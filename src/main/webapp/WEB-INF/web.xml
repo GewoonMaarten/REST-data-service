@@ -6,7 +6,7 @@
     <display-name>Restful Web Application</display-name>
 
     <servlet>
-        <servlet-name>jersey-serlvet</servlet-name>
+        <servlet-name>token-servlet</servlet-name>
         <servlet-class>
             com.sun.jersey.spi.container.servlet.ServletContainer
         </servlet-class>
@@ -18,7 +18,7 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>jersey-serlvet</servlet-name>
-        <url-pattern>/</url-pattern>
+        <servlet-name>token-servlet</servlet-name>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 </web-app>

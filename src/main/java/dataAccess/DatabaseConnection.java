@@ -14,7 +14,7 @@ public class DatabaseConnection {
 
 
     private DatabaseConnection(){
-        mongoClient = new MongoClient("192.168.99.100", 27017);
+        mongoClient = new MongoClient("localhost", 27017);
         database = mongoClient.getDatabase("DataService");
     }
 

@@ -19,7 +19,7 @@ public class DataDAO {
 
     private DataDAO(){
         database = DatabaseConnection.getInstance().getDatabase();
-        collection = database.getCollection("users");
+        collection = database.getCollection("data");
     }
 
     public static DataDAO getInstance(){
@@ -36,14 +36,21 @@ public class DataDAO {
                     .append("data", data);
             collection.insertOne(doc);
         } else {
-            Document doc = new Document("$push", new Document("$each", data));
-            collection.updateOne(eq("_id", token), doc);
+            for(Object object: data){
+                Document doc = new Document("$push", new Document("data", object));
+                collection.updateOne(eq("_id", token), doc);
+            }
         }
 
     }
 
     public Document getDataByToken(String token){
         return collection.find(eq("_id", token)).first();
+    }
+
+    public void insertToken(String token) {
+        Document doc = new Document("_id", token);
+        collection.insertOne(doc);
     }
 
     public ArrayList<String> getAllTokens(){
