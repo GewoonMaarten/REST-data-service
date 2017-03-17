@@ -1,0 +1,14 @@
+version: '2'
+services:
+  web:
+    container_name: restdataservice_web_1
+    build: .
+    ports:
+    - "8080:8080"
+    depends_on:
+    - db
+  db:
+    container_name: restdataservice_db_1
+    image: mongo:3.4
+    ports:
+    - "27017:27017"
