@@ -1,6 +1,5 @@
 package web;
 
-import com.mongodb.util.JSON;
 import dataAccess.DataDAO;
 import org.bson.Document;
 
@@ -11,11 +10,11 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 
 @Path("/data")
-public class dataService {
+public class DataService {
     private DataDAO dataDAO = DataDAO.getInstance();
 
     @GET
-    @Path("/new")
+    @Path("/new_token")
     @Produces("application/json")
     public Response getNewToken(){
         try{
@@ -26,10 +25,9 @@ public class dataService {
                 token = tokenGenerator();
             }
             dataDAO.insertToken(token);
-
             return Response.status(201).entity("{\"token\" : \""+token+"\"}").build();
         } catch (Exception e){
-            return Response.status(500).entity("500: Couldn't get new token!").build();
+            return Response.status(500).entity("Couldn't get new token!").build();
         }
 
     }
@@ -42,7 +40,7 @@ public class dataService {
             Document doc = dataDAO.getDataByToken(token);
             return Response.status(200).entity(doc.toJson()).build();
         } catch (NullPointerException e){
-            return Response.status(400).entity("400: No data found with that token!").build();
+            return Response.status(400).entity("No data found with that token!").build();
         }
 
     }
@@ -56,13 +54,12 @@ public class dataService {
             //So unsafe, very bad
             @SuppressWarnings("unchecked")
             ArrayList<String> data = (ArrayList<String>) Document.parse(json).get("data");
-            dataDAO.insertData(token, data);
-            return Response.status(200).entity("200: Succesfully inserted data").build();
+            String message = dataDAO.insertData(token, data);
+            return Response.status(200).entity(message).build();
         }catch (Exception e){
-            return Response.status(500).entity("500: Could not insert Data").build();
+            return Response.status(500).entity("Could not insert Data.").build();
         }
     }
-
 
     private String tokenGenerator(){
         SecureRandom random = new SecureRandom();

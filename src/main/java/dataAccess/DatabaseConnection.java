@@ -25,19 +25,8 @@ public class DatabaseConnection {
         return instance;
     }
 
-    public MongoClient getMongoClient() {
-        return mongoClient;
-    }
-
-    public void setMongoClient(MongoClient mongoClient) {
-        this.mongoClient = mongoClient;
-    }
-
     public MongoDatabase getDatabase() {
         return database;
     }
 
-    public void setDatabase(MongoDatabase database) {
-        this.database = database;
-    }
 }

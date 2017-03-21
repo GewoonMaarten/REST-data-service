@@ -29,19 +29,16 @@ public class DataDAO {
         return instance;
     }
 
-    public void insertData(String token, List data){
-
-        if(getDataByToken(token).get("_id") == null){
-            Document doc = new Document("_id", token)
-                    .append("data", data);
-            collection.insertOne(doc);
-        } else {
+    public String insertData(String token, List data){
+        String message = null;
+        if(getDataByToken(token).get("_id") != null){
             for(Object object: data){
                 Document doc = new Document("$push", new Document("data", object));
                 collection.updateOne(eq("_id", token), doc);
             }
+            message = "Succesfully inserted data.";
         }
-
+        return message;
     }
 
     public Document getDataByToken(String token){
